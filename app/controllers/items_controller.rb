@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
 	before_action :set_todo
+	before_action :set_item, except: [:create]
 
 	def create
 		@item = Item.new(item_params)
@@ -13,14 +14,23 @@ class ItemsController < ApplicationController
 	end
 
 	def destroy
-		@item = Item.find(params[:id])
-
 		@item.destroy
 
 		redirect_to todo_path(@todo), notice: "Item was deleted"
 	end
 
+	def mark_as_complete
+		@item.update_attribute(:completed_at, Time.now)
+		@item.save
+
+		redirect_to todo_path(@todo), notice: "Item was marked as completed"
+	end
+
 	private
+
+	def set_item
+		@item = Item.find(params[:id])
+	end
 
 	def item_params
 		params.require(:item).permit(:content)

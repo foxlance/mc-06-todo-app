@@ -2,13 +2,7 @@
 <p><%= @todo.description %></p>
 
 <div>
-	<% @todo.items.each do |item| %>
-	<p><%= item.content %></p>
-	<p>
-		<%= link_to "Mark as compete", '#' %>
-		<%= link_to "Delete", todo_item_path(@todo, item), method: :delete, data: {confirm: "Are you sure?"} %>
-	</p>
-	<% end %>
+	<%= render @todo.items %>
 </div>
 
 <div>
