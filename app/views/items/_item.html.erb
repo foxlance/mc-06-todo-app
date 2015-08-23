@@ -1,9 +1,23 @@
-<% if !item.completed_at.nil? %>
-<p><strike><%= item.content %></strike></p>
-<% else %>
-<p><%= item.content %></p>
-<% end %>
-<p>
-	<%= link_to "Mark as compete", mark_as_complete_todo_item_path(@todo, item), method: :patch %>
-	<%= link_to "Delete", todo_item_path(@todo, item), method: :delete, data: {confirm: "Are you sure?"} %>
-</p>
+<div class="row clearfix">
+	<div class="complete">
+		<%= link_to mark_as_complete_todo_item_path(@todo, item), method: :patch do %>
+			<% if item.completed_at? %>
+				<i style="opacity:0.4" class="fa fa-check"><strike>Mark</strike></i>
+			<% else %>
+				<i class="fa fa-check">Mark</i>
+			<% end %>
+		<% end %>
+	</div>
+	<div class="todo_item">
+		<% if item.completed_at? %>
+			<p style="opacity: 0.4"><strike><%= item.content %></strike></p>
+		<% else %>
+			<p><%= item.content %></p>
+		<% end %>
+	</div>
+	<div class="trash">
+		<%= link_to todo_item_path(@todo, item), method: :delete, data: {confirm: "Are you sure?"} do %>
+			<i class="fa fa-trash">Delete</i>
+		<% end %>	
+	</div>
+</div>
